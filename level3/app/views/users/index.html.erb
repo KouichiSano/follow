@@ -1,0 +1,75 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <h3>User info</h3>
+
+      <% if current_user.image? %>
+      　<%=  image_tag(current_user.image.url, :class => "icon_img") %>
+    　<% else %>
+      　<%= image_tag "画像がありません" %>
+      <% end %>
+    
+      <table class="table">
+        <thead>
+          <tr>
+            <th>name</th>      
+            <th>introduction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <td><%= current_user.name %></td>
+          <td>説明</td>
+        </tbody>
+      </table>
+      <%= link_to 'User edit', edit_user_registration_path %>
+
+     <h3>New Books</h3>
+     <%= render 'books/form', book: @book %>
+    </div>
+
+    <div class="col-sm-9">
+      <h1>Users</h1>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+          	<th>  </th>
+            <th>UserName</th>
+            <th>Mail</th>
+            <th>いいね</th>
+            <th>フォロー</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+        	<% @users.each do |user| %>
+            <tr>
+            	<td>      
+            		<% if user.image? %>
+      　						<%=  image_tag(user.image.url, :class => "icon_img") %>
+								<% else %>
+      　						<%= image_tag "画像がありません" %>
+      					<% end %>
+				      </td>
+            	<td><%= link_to user.name, user_path(user.id) %></td>
+            	<td><%= user.email %></td>
+              <td><%= link_to "いいね一覧", favorites_user_path(user.id) %></td>
+              <td>
+                <% if current_user != user %>
+                  <% if user.followed_by?(current_user) %>
+                    <%= link_to "follow解除",user_relationships_path(user),method: :delete %>
+                  <% else %>
+                    <%= link_to "followする",user_relationships_path(user),method: :post %>
+                  <% end %>
+                <% end%>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <br>
+   </div>
+  </div>
+</div>

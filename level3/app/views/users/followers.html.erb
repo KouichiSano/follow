@@ -1,0 +1,16 @@
+<table>
+  <% @followers.each do |user|  %>
+    <tr>
+      <td>email : <%= user.email %></td>
+      <td>
+        <% if current_user != user %>
+          <% if @user.followed_by?(current_user) %>
+            <%= link_to "following",user_relationships_path(user),method: :delete %>
+          <% else %>
+            <%= link_to "follow",user_relationships_path(user),method: :post %>
+          <% end %>
+        <% end%>
+      </td>
+    </tr> 
+  <% end %>
+</table>

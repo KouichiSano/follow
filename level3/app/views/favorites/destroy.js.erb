@@ -1,0 +1,2 @@
+// ※@bookはViewに居る時の変数ではなく、あくまでdestroyで準備している時の変数なので注意。
+$('#favorite-btn-<%= @book.id %>').html("<%= j(render 'favorites/favorite', book: @book) %>");

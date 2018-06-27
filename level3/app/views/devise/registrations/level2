@@ -1,0 +1,69 @@
+
+sudo apt-get -y install imagemagick libmagick++-dev
+
+
+
+gem 'carrierwave'
+gem 'rmagick'
+
+bundle install
+
+rails g uploader image
+
+$ rails g migration add_image_to_users image:string
+
+rails db:migrate
+
+models/user.rbに追記
+
+mount_uploader :image, ImageUploader
+
+
+
+<%= f.label :image %>
+<%= f.file_field :image %> 
+
+を
+ registrations
+ >>new
+ >>edit
+ に追記
+
+
+
+プラス
+application_controller.rb
+rails g devise:controllers users
+ストロングパラメーター追記
+permit(:title, :body, :image)
+
+
+app/uploaders/image_uploader.rb
+
+ # encoding: utf-8
+
+
+class ImageUploader < CarrierWave::Uploader::Base  
+
+
+# リサイズしたり画像形式を変更します。
+  include CarrierWave::RMagick
+
+
+# 画像の上限を100pxにします。
+  process :resize_to_limit => [100, 100]
+
+
+end
+
+
+
+投稿した画像をビューに表示
+      <% if post.image? %>
+    　<td><%=  image_tag post.image.url%></td>
+    　<% else %>
+    　<td><%= image_tag 'noimage.gif' %></td>    
+    　<% end %>
+      <td><%= link_to post.title, post_path(post)%></td>
+      <td><%= post.body %></td>
+

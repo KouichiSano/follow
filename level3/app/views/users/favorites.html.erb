@@ -1,0 +1,36 @@
+<h2>いいね一覧</h2>
+
+
+<!--         <h4 class="user">
+            <span class="user-email">
+              <%#= link_to book.user.email, user_path(book.user) %>
+            </span>
+        <span class="user-id"><%#= post.user.email %></span>
+        </h4>
+        <div class="book-body">
+            <%#= book.opinion %> -->
+        <!-- </div> -->
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>title</th>
+            <th>opinion</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+            <% if @user.favorites.empty? %>
+                <div class="list-group-item">
+                  まだお気に入りされた投稿はありません。
+                </div>
+            <% end %>
+            <% @user.favorites.map { |f| f.book }.each do |book| %>
+            <tr>
+                <td><%= book.title %></td>
+                <td><%= book.opinion %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
